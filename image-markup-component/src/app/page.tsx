@@ -1,12 +1,12 @@
 import React from "react";
-import Header from "./components/header";
-import Prueba from "./components/prueba";
+import Header from "./components/Header";
+import ImageMarkup from "./components/Image-Markup";
 
 export default function Home() {
   return (
     <>
       <Header />
-      <Prueba />
+      <ImageMarkup />
     </>
   );
 }

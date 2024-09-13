@@ -19,7 +19,7 @@ import { PrevArrow, NextArrow } from "./Arrows";
 
 interface Note {
   id: number;
-  imageIndex: number;
+  imageId: number;
   x: number;
   y: number;
   text: string;
@@ -31,7 +31,7 @@ const ImageCarouselWithNotes = () => {
   const [images, setImages] = useState<string[]>([]);
   const [notes, setNotes] = useState<Note[]>([]);
   const noteIdRef = useRef(0);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentimageId, setCurrentimageId] = useState(0);
   const [isDragging, setIsDragging] = useState<number | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newNoteText, setNewNoteText] = useState("");
@@ -91,7 +91,7 @@ const ImageCarouselWithNotes = () => {
   // Manejar el movimiento del mouse para arrastrar la nota
   const handleMouseMove = (
     e: React.MouseEvent<HTMLDivElement>,
-    imageIndex: number
+    imageId: number
   ) => {
     if (isDragging !== null) {
       const rect = e.currentTarget.getBoundingClientRect();
@@ -100,7 +100,7 @@ const ImageCarouselWithNotes = () => {
 
       setNotes((prevNotes) =>
         prevNotes.map((note) =>
-          note.id === isDragging && note.imageIndex === imageIndex
+          note.id === isDragging && note.imageId === imageId
             ? { ...note, x: xPercent, y: yPercent }
             : note
         )
@@ -134,7 +134,7 @@ const ImageCarouselWithNotes = () => {
     if (newNoteText && newNotePosition) {
       const newNote = {
         id: noteIdRef.current++,
-        imageIndex: currentImageIndex,
+        imageId: currentimageId,
         x: newNotePosition.x,
         y: newNotePosition.y,
         text: newNoteText,
@@ -153,7 +153,7 @@ const ImageCarouselWithNotes = () => {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    afterChange: (current: number) => setCurrentImageIndex(current),
+    afterChange: (current: number) => setCurrentimageId(current),
     prevArrow: <PrevArrow />,
     nextArrow: <NextArrow />,
     swipe: false,
@@ -194,7 +194,7 @@ const ImageCarouselWithNotes = () => {
                       onClick={handleImageClick} // Abrir dialogo para agregar una nueva nota
                     />
                     {notes
-                      .filter((note) => note.imageIndex === index)
+                      .filter((note) => note.imageId === index)
                       .map((note, noteIndex) => (
                         <div
                           key={note.id}
@@ -233,10 +233,10 @@ const ImageCarouselWithNotes = () => {
       </div>
 
       <div className="w-1/2 pl-4 mt-16 mr-4">
-        {notes.filter((note) => note.imageIndex === currentImageIndex).length >
+        {notes.filter((note) => note.imageId === currentimageId).length >
         0 ? (
           notes
-            .filter((note) => note.imageIndex === currentImageIndex)
+            .filter((note) => note.imageId === currentimageId)
             .map((note, noteIndex) => (
               <div
                 key={note.id}
@@ -291,7 +291,7 @@ const ImageCarouselWithNotes = () => {
         )}
       </div>
 
-      {/* Dialogo para agregar una nueva nota */}
+      {/* Modal para agregar una nueva nota */}
       <Dialog open={isDialogOpen} onClose={handleCloseDialog}>
         <DialogTitle>Agregar Nota</DialogTitle>
         <DialogContent>
